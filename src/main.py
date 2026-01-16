@@ -3,9 +3,16 @@ import os
 import requests
 import sys
 import time
+from pathlib import Path
 
-OPENAI_API_KEY=os.environ.get("OPENAI_API_KEY")
-IMAGE_GENERATION_ENDPOINT="https://api.openai.com/v1/images/generations"
+from dotenv import load_dotenv
+
+repo_root = Path(__file__).resolve().parents[1]
+load_dotenv(dotenv_path=repo_root / ".env", override=False)
+load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
+
+OPENAI_TARGET=os.environ.get("OPENAI_TARGET", "https://api.openai.com")
+IMAGE_GENERATION_ENDPOINT=f"{OPENAI_TARGET.rstrip('/')}/v1/images/generations"
 
 MODELS={"dall-e-2", "dall-e-3"}
 SIZES_2={"256x256", "512x512", "1024x1024"}
@@ -41,7 +48,8 @@ def make_request(api_key: str, params: dict[str]) -> tuple[dict, int]:
               help="Enable prompt piping")
 def main(prompt, model, n, size, quality, style, download, pipe) -> None:
 
-    if not OPENAI_API_KEY:
+    api_key=os.environ.get("OPENAI_API_KEY")
+    if not api_key:
         print("Missing api key")
         sys.exit()
 
@@ -63,7 +71,7 @@ def main(prompt, model, n, size, quality, style, download, pipe) -> None:
         params["style"]=style
 
     try:
-        image_request=make_request(OPENAI_API_KEY, params)
+        image_request=make_request(api_key, params)
     except Exception as e:
         print("Unable to perform the request: ", e)
 

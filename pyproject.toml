@@ -15,7 +15,8 @@ authors = [
 
 dependencies = [
     "click",
-    "requests"
+    "requests",
+    "python-dotenv"
     ]
 
 [project.scripts]

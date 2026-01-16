@@ -13,7 +13,7 @@ pip install -U pip
 pip install git+https://github.com/marcolardera/dall-e-cli
 ```
 
-Then set the `OPENAI_API_KEY` environment variable with your own OpenAI api key. That's all.
+Then set the `OPENAI_API_KEY` environment variable with your own OpenAI api key. Optional: set `OPENAI_TARGET` to route requests to a proxy or OpenAI-compatible endpoint (default `https://api.openai.com`). That's all.
 
 ## Basic usage
 
